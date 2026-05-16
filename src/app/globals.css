@@ -1,26 +1,290 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand palette — LIGHT mode (gold on bone/cream) */
+  --color-gold: #B8975A;
+  --color-gold-light: #D4A853;
+  --color-champagne: #E8C878;
+  --color-ink: #0C0C0C;
+  --color-surface: #141414;
+  --color-elevated: #1A1A1A;
+  --color-bone: #F2F0ED;
+  --color-cream: #FAF7F1;
+  /* Mid/dim tones for text — now ink-based since bg is light */
+  --color-ink-mid: rgba(12, 12, 12, 0.55);
+  --color-ink-dim: rgba(12, 12, 12, 0.18);
+  /* Legacy bone-mid/dim still around if any dark sections use them */
+  --color-bone-mid: rgba(242, 240, 237, 0.5);
+  --color-bone-dim: rgba(242, 240, 237, 0.2);
+  --color-brown: #0C0C0C;
+  --color-brown-transparent: rgba(12, 12, 12, 0);
+
+  /* Typography */
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, monospace;
+
+  /* Breakpoints — matched to SOLAIS source for parity */
+  --breakpoint-phone: 36rem;     /* 576px */
+  --breakpoint-mini: 48rem;      /* 768px */
+  --breakpoint-tablet: 64rem;    /* 1024px */
+  --breakpoint-laptop: 80rem;    /* 1280px */
+  --breakpoint-bigLaptop: 90rem; /* 1440px */
+  --breakpoint-desktop: 100rem;  /* 1600px */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #FAF7F1;
+  --foreground: #0C0C0C;
 }
 
-body {
+html, body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+body {
+  overflow-x: hidden;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* === Typography (SOLAIS parity) === */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+.font-heading { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; }
+
+h1, h2, h3, h4, h5, h6,
+.is-h1, .is-h2, .is-h3, .is-h4, .is-h5, .is-h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.is-h1 {
+  font-size: 2.25rem;          /* 36px */
+  line-height: 1.1;
+}
+@media (width >= 36rem) { .is-h1 { font-size: 3rem;    } }   /* 48px */
+@media (width >= 48rem) { .is-h1 { font-size: 3.75rem; } }   /* 60px */
+@media (width >= 80rem) { .is-h1 { font-size: 4.5rem;  } }   /* 72px */
+@media (width >= 100rem){ .is-h1 { font-size: 80px;    } }
+
+.is-h2 {
+  font-size: 1.875rem;         /* 30px */
+  line-height: 1.1;
+}
+@media (width >= 36rem) { .is-h2 { font-size: 2.25rem; } }   /* 36px */
+@media (width >= 80rem) { .is-h2 { font-size: 3rem;    } }   /* 48px */
+
+.is-h3 {
+  font-size: 1.5rem;           /* 24px */
+  line-height: 1.15;
+}
+@media (width >= 80rem) { .is-h3 { font-size: 1.875rem; } }  /* 30px */
+
+.supertitle {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+@media (width >= 64rem) { .supertitle { font-size: 16px; } }
+
+/* === Gold grid texture (light theme: gold lines on bone) === */
+.grid-background {
+  background-image:
+    linear-gradient(rgba(184, 151, 90, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 151, 90, 0.18) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* === Gradient accent line used inside split headings === */
+.accent-line {
+  background: linear-gradient(to left, currentColor, transparent);
+}
+
+/* === Mesh-label corner brackets (SOLAIS visual idiom) === */
+.mesh-label {
+  position: absolute;
+  z-index: 20;
+  max-width: 350px;
+  padding: 1rem;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+@media (width >= 80rem) { .mesh-label { max-width: 460px; } }
+
+.mesh-label::before,
+.mesh-label::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 2px;
+  width: 0.75rem;
+  background: var(--color-gold);
+}
+.mesh-label::before { top: 0; }
+.mesh-label::after  { bottom: 0; }
+
+.label-corner {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  transition: all 0.5s ease;
+}
+.label-corner.tl { top: -0.25rem;    left: -0.25rem;
+  border-top: 1px solid var(--color-gold); border-left: 1px solid var(--color-gold); }
+.label-corner.tr { top: -0.25rem;    right: -0.25rem;
+  border-top: 1px solid var(--color-gold); border-right: 1px solid var(--color-gold); }
+.label-corner.bl { bottom: -0.25rem; left: -0.25rem;
+  border-bottom: 1px solid var(--color-gold); border-left: 1px solid var(--color-gold); }
+.label-corner.br { bottom: -0.25rem; right: -0.25rem;
+  border-bottom: 1px solid var(--color-gold); border-right: 1px solid var(--color-gold); }
+.mesh-label.is-active .label-corner.tl,
+.mesh-label.is-active .label-corner.tr,
+.mesh-label.is-active .label-corner.bl,
+.mesh-label.is-active .label-corner.br {
+  /* spread out a bit when active */
+  transform: scale(1.15);
+}
+
+/* === Loading screen 12x12 grid === */
+.loading-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  pointer-events: none;
+}
+.loading-block {
+  background: var(--color-ink);
+  will-change: transform, opacity;
+  transform-origin: center;
+}
+.loading-block-anim {
+  animation: loading-cell-out 700ms cubic-bezier(.7, 0, .3, 1) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes loading-cell-out {
+  0%   { transform: scale(1);    opacity: 1; }
+  60%  { transform: scale(0.92); opacity: 1; }
+  100% { transform: scale(0);    opacity: 0; }
+}
+
+/* === Marquee track === */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  animation: marquee-x 28s linear infinite;
+  will-change: transform;
+}
+
+/* === Blink === */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+.blink { animation: blink 1.2s ease-in-out infinite; }
+
+/* === Diagonal-corner card (SOLAIS swiper-slide style) === */
+.diag-card {
+  position: relative;
+  background: var(--color-ink);
+  color: var(--color-cream);
+  min-height: 400px;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  clip-path: polygon(0 0, calc(100% - 72px) 0, 100% 72px, 100% 100%, 72px 100%, 0 calc(100% - 72px));
+}
+@media (width >= 80rem) { .diag-card { min-height: 480px; padding: 3rem 2rem; } }
+
+/* Section padding helper */
+.section-pad {
+  padding-block: clamp(4rem, 10vw, 9rem);
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* === Cinematic background atmospherics === */
+/* Three particle drift variants — assigned by index so the field feels
+   natural without needing per-particle CSS custom properties. */
+@keyframes float-slow-a {
+  0%, 100% { transform: translate(0, 0);       opacity: 0.25; }
+  25%      { transform: translate(14px, -22px); opacity: 0.7;  }
+  50%      { transform: translate(-8px, -46px); opacity: 0.85; }
+  75%      { transform: translate(-16px, -24px); opacity: 0.5; }
+}
+@keyframes float-slow-b {
+  0%, 100% { transform: translate(0, 0);       opacity: 0.2;  }
+  33%      { transform: translate(-22px, -30px); opacity: 0.6; }
+  66%      { transform: translate(10px, -55px);  opacity: 0.8; }
+}
+@keyframes float-slow-c {
+  0%, 100% { transform: translate(0, 0);       opacity: 0.3;  }
+  40%      { transform: translate(8px, -35px);   opacity: 0.75; }
+  80%      { transform: translate(-12px, -18px); opacity: 0.55; }
+}
+
+@keyframes streak {
+  0%, 100% { opacity: 0.05; filter: blur(0px); }
+  50%      { opacity: 0.65; filter: blur(0.4px); }
+}
+
+@keyframes code-flicker {
+  0%, 100% { opacity: 0.1; }
+  20%      { opacity: 0.55; }
+  22%      { opacity: 0.15; }
+  24%      { opacity: 0.5; }
+  60%      { opacity: 0.3; }
+  80%      { opacity: 0.6; }
+}
+.animate-code-flicker {
+  animation: code-flicker 7s ease-in-out infinite;
+}
+
+@keyframes grid-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%      { opacity: 0.75; transform: scale(1.015); }
+}
+.animate-grid-breathe {
+  animation: grid-breathe 11s ease-in-out infinite;
+}
+
+/* === Reveal-on-scroll utilities === */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+/* Soft glow pulse for accent dots / corner brackets */
+@keyframes pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184,151,90,0.5); }
+  50%      { box-shadow: 0 0 0 10px rgba(184,151,90,0); }
+}
+.pulse-soft { animation: pulse-soft 2.4s ease-in-out infinite; }
