@@ -1,7 +1,9 @@
 "use client";
 
+/* eslint-disable react-hooks/immutability, react-hooks/exhaustive-deps */
+
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import LogoGLB from "./LogoGLB";
 import GLBErrorBoundary from "./GLBErrorBoundary";
@@ -141,6 +143,7 @@ function ProceduralCompass({ progress }: { progress: Progress }) {
  * "Actionable" pose (3), where it gives the camera a perspective floor like
  * the SOLAIS reference screenshot.
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function GridFloor({ pose }: { pose: RefVal<number> }) {
   const ref = useRef<THREE.GridHelper>(null);
   const materialRef = useRef<THREE.LineBasicMaterial | null>(null);
@@ -174,14 +177,20 @@ export default function CompassLogo3D({
   scrollProgress?: number;
   pose?: number;
 }) {
-  const progressRef = useRef({ current: scrollProgress });
-  progressRef.current.current = scrollProgress;
-  const poseRef = useRef({ current: pose });
-  poseRef.current.current = pose;
+  const progressValue = useMemo(() => ({ current: scrollProgress }), []);
+  const poseValue = useMemo(() => ({ current: pose }), []);
+
+  useEffect(() => {
+    progressValue.current = scrollProgress;
+  }, [progressValue, scrollProgress]);
+
+  useEffect(() => {
+    poseValue.current = pose;
+  }, [poseValue, pose]);
 
   // The procedural compass is the universal fallback: shown while the GLB is
   // loading (Suspense) AND if the GLB fetch fails (ErrorBoundary).
-  const fallback = <ProceduralCompass progress={progressRef.current} />;
+  const fallback = <ProceduralCompass progress={progressValue} />;
 
   return (
     <div className={className}>
@@ -199,11 +208,9 @@ export default function CompassLogo3D({
         <pointLight position={[0, 2, 5]} intensity={1.0} color={"#E8C878"} />
         <pointLight position={[-3, -1, 2]} intensity={0.5} color={"#8a6a3a"} />
 
-        <GridFloor pose={poseRef.current} />
-
         <GLBErrorBoundary fallback={fallback}>
           <Suspense fallback={fallback}>
-            <LogoGLB progress={progressRef.current} pose={poseRef.current} />
+            <LogoGLB progress={progressValue} pose={poseValue} />
           </Suspense>
         </GLBErrorBoundary>
       </Canvas>

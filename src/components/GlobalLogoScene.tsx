@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { usePose } from "./poseStore";
 
 const CompassLogo3D = dynamic(() => import("./CompassLogo3D"), {
@@ -32,14 +33,26 @@ const PARTICLES = Array.from({ length: 36 }, (_, i) => ({
   drift: 10 + (i % 5) * 4,
 }));
 
-// Diagonal light streaks — like camera lens flares cutting across the scene.
-const STREAKS = [
-  { top: 8, angle: -22, width: 130, delay: 0, duration: 14 },
-  { top: 22, angle: -28, width: 110, delay: 4, duration: 18 },
-  { top: 44, angle: -25, width: 140, delay: 1.5, duration: 16 },
-  { top: 62, angle: -20, width: 100, delay: 6, duration: 13 },
-  { top: 78, angle: -30, width: 125, delay: 2.5, duration: 20 },
-];
+const WHITE_DOTS = Array.from({ length: 54 }, (_, i) => ({
+  top: ((i * 41) + 9) % 100,
+  left: ((i * 67) + 5) % 100,
+  size:
+    i % 17 === 0
+      ? 8
+      : i % 11 === 0
+        ? 6
+        : i % 7 === 0
+          ? 4
+          : i % 3 === 0
+            ? 2.5
+            : 1.25,
+  delay: ((i * 0.43) % 7).toFixed(2),
+  duration: 8 + (i % 8),
+  opacity: 0.22 + (i % 5) * 0.11,
+}));
+
+const WALL_GRID_COLUMNS = Array.from({ length: 19 }, (_, i) => i * 72 - 48);
+const WALL_GRID_ROWS = Array.from({ length: 14 }, (_, i) => i * 64 - 36);
 
 // Mono-font code snippets that fade in and out at corners — SOLAIS style.
 const CODE_BITS = [
@@ -53,9 +66,66 @@ const CODE_BITS = [
 export default function GlobalLogoScene() {
   const pose = usePose();
   const glow = GLOW[pose as keyof typeof GLOW] ?? GLOW[0];
+  const [scroll, setScroll] = useState(0);
+
+  useEffect(() => {
+    let raf = 0;
+
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        setScroll(window.scrollY);
+        raf = 0;
+      });
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const waveY = Math.sin(scroll * 0.006) * 42;
+  const waveX = Math.cos(scroll * 0.004) * 28;
+  const waveTilt = -11 + Math.sin(scroll * 0.002) * 5;
+  const gridWave = scroll * 0.005;
 
   return (
     <>
+      {/* === Layer -1: left-side black/gold shadow waves === */}
+      <div
+        aria-hidden
+        className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+      >
+        <div
+          className="absolute left-[-24vw] top-[-18vh] h-[145vh] w-[76vw] dao-shadow-wave dao-shadow-wave-a"
+          style={{
+            transform: `translate3d(${waveX}px, ${waveY}px, 0) rotate(${waveTilt}deg)`,
+          }}
+        />
+        <div
+          className="absolute left-[-16vw] top-[8vh] h-[124vh] w-[62vw] dao-shadow-wave dao-shadow-wave-b"
+          style={{
+            transform: `translate3d(${-waveX * 0.7}px, ${-waveY * 0.55}px, 0) rotate(${waveTilt * -0.75}deg)`,
+          }}
+        />
+        <div
+          className="absolute left-[-26vw] top-[30vh] h-[94vh] w-[70vw] dao-shadow-wave dao-shadow-wave-c"
+          style={{
+            transform: `translate3d(${waveX * 0.45}px, ${waveY * 0.85}px, 0) rotate(${waveTilt + 18}deg)`,
+          }}
+        />
+        <div
+          className="absolute left-[18vw] top-[18vh] h-[82vh] w-[48vw] dao-shadow-wave dao-shadow-wave-mid"
+          style={{
+            transform: `translate3d(${waveX * 0.3}px, ${-waveY * 0.35}px, 0) rotate(${waveTilt * 0.4}deg)`,
+          }}
+        />
+      </div>
+
       {/* === Layer 0: warm champagne glow following the logo === */}
       <div
         aria-hidden
@@ -72,42 +142,52 @@ export default function GlobalLogoScene() {
       {/* === Layer 1: subtle grid, masked to fade at edges === */}
       <div
         aria-hidden
-        className="fixed inset-0 pointer-events-none z-0 animate-grid-breathe"
+        className="fixed inset-0 pointer-events-none z-0 animate-grid-breathe overflow-hidden"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(12,12,12,0.07) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(12,12,12,0.07) 1px, transparent 1px)
-          `,
-          backgroundSize: "64px 64px",
           WebkitMaskImage:
             "radial-gradient(ellipse at center, black 30%, transparent 85%)",
           maskImage:
             "radial-gradient(ellipse at center, black 30%, transparent 85%)",
         }}
-      />
-
-      {/* === Layer 2: diagonal light streaks (lens-flare style) === */}
-      <div
-        aria-hidden
-        className="fixed inset-0 pointer-events-none z-[1] overflow-hidden"
       >
-        {STREAKS.map((s, i) => (
-          <div
-            key={i}
-            className="absolute h-px"
-            style={{
-              top: `${s.top}%`,
-              left: "-15%",
-              width: `${s.width}%`,
-              transform: `rotate(${s.angle}deg)`,
-              transformOrigin: "left center",
-              background:
-                "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 40%, rgba(232,200,120,0.5) 55%, rgba(255,255,255,0.7) 70%, transparent 100%)",
-              animation: `streak ${s.duration}s ease-in-out infinite`,
-              animationDelay: `${s.delay}s`,
-            }}
-          />
-        ))}
+        <svg
+          className="absolute inset-[-7%] h-[114%] w-[114%]"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
+        >
+          {WALL_GRID_COLUMNS.map((x, i) => {
+            const topBend = Math.sin(gridWave + i * 0.55) * 10;
+            const midBend = Math.cos(gridWave * 1.15 + i * 0.7) * 20;
+            const bottomBend = Math.sin(gridWave * 0.85 + i * 0.42) * 12;
+
+            return (
+              <path
+                key={`wall-col-${i}`}
+                d={`M ${x + topBend} -80 C ${x - midBend} 180, ${x + midBend} 520, ${x + bottomBend} 880`}
+                fill="none"
+                stroke="rgba(12,12,12,0.07)"
+                strokeWidth="1"
+                className="dao-wall-grid-line"
+              />
+            );
+          })}
+          {WALL_GRID_ROWS.map((y, i) => {
+            const leftBend = Math.cos(gridWave + i * 0.6) * 9;
+            const midBend = Math.sin(gridWave * 1.1 + i * 0.52) * 17;
+            const rightBend = Math.cos(gridWave * 0.9 + i * 0.44) * 11;
+
+            return (
+              <path
+                key={`wall-row-${i}`}
+                d={`M -90 ${y + leftBend} C 260 ${y - midBend}, 760 ${y + midBend}, 1290 ${y + rightBend}`}
+                fill="none"
+                stroke="rgba(12,12,12,0.07)"
+                strokeWidth="1"
+                className="dao-wall-grid-line"
+              />
+            );
+          })}
+        </svg>
       </div>
 
       {/* === Layer 3: floating particles === */}
@@ -134,12 +214,40 @@ export default function GlobalLogoScene() {
                   i % 5 === 0
                     ? "0 0 8px rgba(212,168,83,0.6)"
                     : "none",
-                animation: `float-slow-${["a", "b", "c"][variant]} ${p.duration}s ease-in-out infinite`,
+                animationName: `float-slow-${["a", "b", "c"][variant]}`,
+                animationDuration: `${p.duration}s`,
+                animationTimingFunction: "ease-in-out",
+                animationIterationCount: "infinite",
                 animationDelay: `${p.delay}s`,
               }}
             />
           );
         })}
+      </div>
+
+      {/* === Layer 3b: bright white dots drifting across the viewport === */}
+      <div
+        aria-hidden
+        className="fixed inset-0 pointer-events-none z-[1] overflow-hidden"
+      >
+        {WHITE_DOTS.map((p, i) => (
+          <span
+            key={i}
+            className="absolute rounded-full dao-white-dot"
+            style={{
+              top: `${p.top}%`,
+              left: `${p.left}%`,
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              opacity: p.opacity,
+              animationDuration: `${p.duration}s`,
+              animationDelay: `${p.delay}s`,
+              transform: scroll
+                ? `translate3d(${(Math.sin(scroll * 0.002 + i) * 18).toFixed(3)}px, ${(Math.cos(scroll * 0.0025 + i) * 22).toFixed(3)}px, 0px)`
+                : "translate3d(0px, 0px, 0px)",
+            }}
+          />
+        ))}
       </div>
 
       {/* === Layer 4: mono code snippets at corners === */}

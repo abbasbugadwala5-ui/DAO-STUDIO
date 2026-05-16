@@ -24,27 +24,18 @@ const lerpVec3 = (
 
 // Target poses driving the cinematic scroll-through. Each section claims one
 // pose number (see GlobalLogoScene + section ScrollTriggers). The logo lerps
-// smoothly between targets — feels like a single movie shot tracking through.
+// smoothly between targets, like a single movie shot tracking through.
 const POSES = [
-  // === HERO (poses 0-4) ===
-  // 0: intro — center, upright, breathing
+  // HERO (poses 0-4)
   { pos: [0, 0, 0], rot: [0, 0, 0], scale: 1.0, emissive: 0.75 },
-  // 1: DEFINE — shift left, tilt forward
   { pos: [-2.2, 0.4, 0], rot: [0.25, 0.5, -0.1], scale: 1.05, emissive: 0.85 },
-  // 2: AMPLIFY — shift right, opposite tilt, brighter glow
   { pos: [2.2, -0.2, 0], rot: [-0.15, -0.55, 0.1], scale: 1.0, emissive: 1.0 },
-  // 3: OWN — almost flat (reveals grid floor)
   { pos: [0.4, -1.0, 0.5], rot: [Math.PI / 2 - 0.35, 0.15, 0], scale: 0.75, emissive: 0.9 },
-  // 4: hero outro — center again, slightly smaller
   { pos: [0, 0.2, 0], rot: [0.1, Math.PI, 0], scale: 0.9, emissive: 0.8 },
-  // === BELOW HERO (5-8) ===
-  // 5: SERVICES — flies bottom-right, big oblique rotation
+  // BELOW HERO (5-8)
   { pos: [3.2, -1.0, -1.5], rot: [-0.25, 1.1, 0.3], scale: 0.7, emissive: 0.7 },
-  // 6: HOW IT WORKS — top-down architectural look, centered
   { pos: [0, 1.2, -2], rot: [Math.PI / 2 - 0.15, Math.PI * 0.3, 0], scale: 0.85, emissive: 0.95 },
-  // 7: INDUSTRIES — close-up tilted, left side
   { pos: [-2.6, 0.4, 2], rot: [0.2, -0.6, -0.2], scale: 1.25, emissive: 1.0 },
-  // 8: CTA finale — front-center, majestic, full glow
   { pos: [0, 0, 1.5], rot: [0, Math.PI * 2, 0], scale: 1.4, emissive: 1.15 },
 ] as const;
 
@@ -58,6 +49,7 @@ export default function LogoGLB({
   url?: string;
 }) {
   const { scene } = useGLTF(url);
+  void progress;
   const meshRef = useRef<THREE.Mesh>(null);
 
   const merged = useMemo(() => {
@@ -125,10 +117,7 @@ export default function LogoGLB({
     const idx = Math.max(0, Math.min(POSES.length - 1, pose.current));
     const target = POSES[idx];
 
-    // Smoothly lerp toward the current pose's transform (0.06 = ~snappy
-    // critical-damped feel, faster than 0.02, slower than 0.15).
     const k = 0.06;
-    // Mouse parallax — logo gently drifts toward cursor for "alive" feel.
     const mx = state.mouse.x * 0.35;
     const my = state.mouse.y * 0.25;
     lerpVec3(
@@ -148,10 +137,8 @@ export default function LogoGLB({
     const s = lerp(m.scale.x, targetScale, k);
     m.scale.set(s, s, s);
 
-    // Soft idle bob layered on top of pose Y
     m.position.y += Math.sin(time * 0.6) * 0.05;
 
-    // Animated emissive shimmer biased toward this pose's intensity
     const targetGlow = target.emissive + Math.sin(time * 1.5) * 0.05;
     const mat = m.material as THREE.MeshStandardMaterial;
     mat.emissiveIntensity = lerp(mat.emissiveIntensity, targetGlow, 0.08);

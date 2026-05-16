@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   description:
     "DAO Studio is a digital marketing agency in Dubai. We define brands, amplify their reach, and help them own their category.",
   metadataBase: new URL("https://dao.studio"),
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   openGraph: {
     title: "DAO Studio — Define · Amplify · Own",
     description:

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <g transform="translate(2 55.9) scale(.4715) translate(-284.83 -257.44)">
+    <path fill="#b8975a" opacity=".32" d="M720.53 488.64h-8.43c0-88.57-72.06-160.62-160.62-160.62s-160.62 72.05-160.62 160.62h-8.43c0-93.22 75.84-169.05 169.05-169.05s169.05 75.84 169.05 169.05Z"/>
+    <path fill="#b8975a" opacity=".62" d="M673.55 488.64h-11.44c0-61.01-49.63-110.64-110.64-110.64s-110.64 49.63-110.64 110.64h-11.44c0-67.31 54.76-122.08 122.08-122.08s122.08 54.76 122.08 122.08Z"/>
+    <path fill="#b8975a" opacity=".95" d="M627.18 488.64h-15.65c0-33.11-26.94-60.05-60.05-60.05s-60.05 26.94-60.05 60.05h-15.65c0-41.75 33.96-75.7 75.7-75.7s75.7 33.96 75.7 75.7Z"/>
+    <path fill="#b8975a" fill-rule="evenodd" d="M562.38 488.64c0-6.02-4.88-10.91-10.91-10.91s-10.91 4.88-10.91 10.91 4.88 10.91 10.91 10.91 10.91-4.88 10.91-10.91"/>
+    <rect fill="#b8975a" opacity=".28" x="548.47" y="314.11" width="6.02" height="164.83"/>
+    <path fill="#b8975a" opacity=".75" d="m551.48 322.3-19.46-32.43 19.46-32.43 19.46 32.43-19.46 32.43Zm-9.63-32.44 9.63 16.06 9.63-16.06-9.63-16.05-9.63 16.05Z"/>
+    <g fill="#b8975a">
+      <rect opacity="0" x="284.83" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".03" x="298.16" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".06" x="311.49" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".09" x="324.82" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".13" x="338.16" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".16" x="351.49" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".19" x="364.82" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".23" x="378.15" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".26" x="391.49" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".3" x="404.82" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".34" x="418.15" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".37" x="431.48" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".41" x="444.82" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".46" x="458.15" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".5" x="471.48" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".55" x="484.81" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".59" x="498.15" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".65" x="511.48" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".71" x="524.81" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".78" x="538.14" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".78" x="551.48" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".71" x="564.81" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".65" x="578.14" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".59" x="591.47" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".55" x="604.81" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".5" x="618.14" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".46" x="631.47" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".41" x="644.8" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".37" x="658.13" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".34" x="671.47" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".3" x="684.8" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".26" x="698.13" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".23" x="711.46" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".19" x="724.8" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".16" x="738.13" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".13" x="751.46" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".09" x="764.79" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".06" x="778.13" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity=".03" x="791.46" y="556.93" width="14.54" height="2.18"/>
+      <rect opacity="0" x="804.79" y="556.93" width="14.54" height="2.18"/>
+    </g>
+  </g>
+</svg>
