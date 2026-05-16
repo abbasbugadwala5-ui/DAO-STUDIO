@@ -46,12 +46,12 @@ export default function CTASection() {
     >
       <div className="flex flex-col items-center gap-8">
         <span className="cta-anim supertitle text-gold">Ready when you are</span>
-        <h2 className="cta-anim is-h1 max-w-3xl">
-          Let's build something the
-          <br className="hidden tablet:block" /> market <span className="text-gold">can't ignore.</span>
+        <h2 className="cta-anim is-h1 max-w-3xl text-white">
+          Let&apos;s build something the
+          <br className="hidden tablet:block" /> market <span className="text-gold">can&apos;t ignore.</span>
         </h2>
         <p className="cta-anim text-ink-mid max-w-xl">
-          Tell us about your brand. We'll come back within one business day with
+          Tell us about your brand. We&apos;ll come back within one business day with
           a clear plan and a fixed-fee proposal.
         </p>
         <div className="cta-anim flex flex-col phone:flex-row gap-4 mt-4">

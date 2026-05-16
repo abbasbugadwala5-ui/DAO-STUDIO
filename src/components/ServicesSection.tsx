@@ -58,7 +58,7 @@ export default function ServicesSection() {
           <span className="w-2 h-7 bg-gold" />
           <span className="w-1 h-7 bg-gold" />
         </span>
-        <h2 className="is-h1 flex flex-col">
+        <h2 className="is-h1 flex flex-col text-white">
           <span>Twelve ways</span>
           <span className="flex items-center gap-4">
             <span className="accent-line h-[6px] w-[60px] laptop:w-[120px]" />

@@ -16,7 +16,7 @@ export default function ServicesPage() {
           <span className="w-2 h-7 bg-gold" />
           <span className="w-1 h-7 bg-gold" />
         </span>
-        <h1 className="is-h1 mt-6 flex flex-col">
+        <h1 className="is-h1 mt-6 flex flex-col text-white">
           <span>Twelve disciplines.</span>
           <span className="flex items-center gap-4">
             <span className="accent-line h-[6px] w-[60px] laptop:w-[120px]" />

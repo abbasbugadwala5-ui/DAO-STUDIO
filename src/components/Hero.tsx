@@ -113,7 +113,7 @@ export default function Hero() {
         >
           <div className="flex flex-col tablet:flex-row gap-4 tablet:gap-24 w-full justify-between tablet:items-end self-end px-4 tablet:px-8 pb-8 tablet:pb-12">
             <h1
-              className="is-h1 max-w-[725px] flex flex-col relative text-ink"
+              className="is-h1 max-w-[725px] flex flex-col relative text-white"
               data-anim="intro"
             >
               <span className="supertitle absolute -top-10 left-0 flex flex-row gap-1 items-center">
@@ -126,7 +126,7 @@ export default function Hero() {
               <span className="block">DEFINE.</span>
               <span className="block flex items-center gap-2 phone:gap-4">
                 <span className="accent-line text-gold h-[4px] phone:h-[6px] w-[40px] phone:w-[60px] laptop:w-[120px]" />
-                <span className="shrink-0">AMPLIFY.</span>
+                <span className="shrink-0 text-ink">AMPLIFY.</span>
               </span>
               <span className="block text-gold">OWN.</span>
             </h1>
@@ -149,7 +149,7 @@ export default function Hero() {
           className="absolute inset-0 z-20 pointer-events-none"
           style={{ opacity: pHead }}
         >
-          <h2 className="is-h1 max-w-[700px] flex flex-col absolute bottom-8 tablet:bottom-12 left-4 tablet:left-8 text-ink">
+          <h2 className="is-h1 max-w-[700px] flex flex-col absolute bottom-8 tablet:bottom-12 left-4 tablet:left-8 text-white">
             <span className="supertitle absolute -top-10 left-0 flex items-center gap-1">
               <span className="px-3 py-0.5 bg-gold text-ink leading-none flex items-center">
                 Understanding
@@ -205,7 +205,7 @@ export default function Hero() {
               <span className="bg-gold w-2 h-7" />
               <span className="bg-gold w-1 h-7" />
             </span>
-            <h2 className="is-h1 flex flex-col text-ink">
+            <h2 className="is-h1 flex flex-col text-white">
               <span>Why brands</span>
               <span className="flex items-center gap-4">
                 <span className="accent-line text-gold h-[6px] w-[60px] laptop:w-[120px]" />
